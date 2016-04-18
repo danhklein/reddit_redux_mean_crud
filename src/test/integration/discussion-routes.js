@@ -37,7 +37,6 @@ describe('discussion routes', function() {
                 .end(function(err, res) {
                     res.status.should.equal(200);
                     res.type.should.equal('application/json');
-
                     res.body.should.be.a('object');
                     res.body.should.have.property('status');
                     res.body.should.have.property('data');
