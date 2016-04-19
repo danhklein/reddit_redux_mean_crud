@@ -1,7 +1,8 @@
-// sample angular code
+// add scripts
 
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['ngRoute']);
 
-app.controller('myController', ['$scope', function($scope) {
-  $scope.greeting = "Hello World!";
+
+app.controller('myController', ['$scope', function($scope){
+  $scope.greeting = 'Angulargh'
 }]);

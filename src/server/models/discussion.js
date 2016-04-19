@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 var Schema   = mongoose.Schema;
-var DiscussionSchema = new Schema({
+var DiscussionSchema;
+DiscussionSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -31,8 +32,12 @@ var DiscussionSchema = new Schema({
     },
     hidden: Boolean,
     meta: {
-        votes: Number,
-        favs: Number
+        votes: {
+            type: Number,
+            default: 0
+        }
     }
 });
 var Discussion = mongoose.model('discussion', DiscussionSchema);
+
+module.exports = Discussion; 

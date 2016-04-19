@@ -1,7 +1,7 @@
 /**
  * Created by danielklein on 4/17/16.
  */
-var Discussions = require('../discussion')
+var Discussions = require('../discussion');
 
 var data = [
     {
@@ -20,7 +20,6 @@ var data = [
             votes: 2,
             favs: 3
         }
-
     }
 
 ]

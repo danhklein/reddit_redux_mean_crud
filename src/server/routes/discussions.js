@@ -6,6 +6,7 @@ var Discussion = require('../models/discussion');
 router.get('/', function (req, res, next) {
     Discussion.find({})
         .then(function(discussions) {
+            console.log('discussions objects', discussions);
             res.status(200).json({
                 status: 'success',
                 data: discussions
@@ -47,10 +48,10 @@ router.post('/', function (req, res, next) {
 
 // update discussion
 router.put('/:id', function (req, res, next) {
-    var discussion_id = req.params.id;
-    var option = req.body;
+
     Discussion.findByIdAndUpdate(req.params.id, req.body, {new:true})
         .then(function (discussion) {
+
             res.status(200).json({
                 status: 'success',
                 data: discussion
@@ -60,6 +61,9 @@ router.put('/:id', function (req, res, next) {
             return next(err);
         });
 });
+
+//Change vote
+
 
 // remove discussion
 router.delete('/:id', function (req, res, next) {

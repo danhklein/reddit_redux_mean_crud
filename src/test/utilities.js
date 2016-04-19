@@ -12,4 +12,4 @@ function dropDatabase (done) {
 
 module.exports = {
     dropDatabase: dropDatabase
-}
+};

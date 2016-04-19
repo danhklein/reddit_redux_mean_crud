@@ -1,0 +1,68 @@
+
+<div ng-controller="allDiscussionController">
+    <div class="media"  ng-repeat="discussion in allDiscussions | orderBy: '-meta.votes' | filter: searchText">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="{{discussion.img_url}}" width="100px" height="100px" alt="{{discussion.title}}">
+            </a>
+        </div>
+
+        <div class="media-body">
+            <h4 ng-controller="editDiscussionController" class="media-heading">{{discussion.title}} |
+                <button type="button" ng-model="discussion.meta.votes" ng-click="changeVote(discussion._id, 'plus')" class="btn btn-default" aria-label="add Vote">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                </button> {{discussion.meta.votes}}
+                <button type="button"ng-model="discussion.meta.votes" ng-click="changeVote(discussion._id, 'minus')" class="btn btn-default" aria-label="lose Vote">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                </button>
+            </h4>
+            <!--<h5 class="text-right">By {{discussion.author}}</h5>-->
+            <h6>{{ discussion.created | date: "EEEE MMM d, yyyy 'at' h:mm:ss a" }}</h6>
+            {{discussion.body}}
+            <h6><button type="button" ng-click="discussion.showform=!discussion.showform"><span class="glyphicon glyphicon-pencil">Add comment</span></button>
+                       <!--Comments -->
+
+
+
+                <button ng-show="{{discussion.comments.length}}>0" type="button" ng-click="discussion.showcomments=!discussion.showcomments" class="check-element sample-show-hide">
+                <span class="glyphicon glyphicon-bullhorn"> Read {{discussion.comments.length}}
+                  <span ng-show="{{discussion.comments.length}}==1">comment</span>
+                  <span ng-show="{{discussion.comments.length}}>1">comments</span>
+                </span>
+                </button>
+                <ul  class="media-list">
+                    <li  ng-repeat="comment in discussion.comments" class="media" class="check-element sample-show-hide">
+                        <div class="media-left">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{comment.title}}</h4>
+                            <h6>By {{comment.author}}</h6>
+                            {{comment.body}}
+                        </div>
+                    </li>
+                </ul>
+                <div ng-controller="editDiscussionController">
+                    <form name="commentform" ng-submit="addComment(discussion._id, newComment)"
+                          ng-show="discussion.showform" class="check-element sample-show-hide">
+                        <fieldset>
+                            <div class="input-group">
+                                <input type="text" name="title" class="form-control" placeholder="Title" ng-model="newComment.title" ng-minlength=5  required />
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="author" class="form-control" placeholder="Author Name" ng-model="newComment.author"  ng-minlength=6 required />
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon3"></span>
+                                <input type="text" name="body" class="form-control" placeholder="description" ng-minlength=10 ng-model="newComment.body" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">Add Comment</button>
+                        </fieldset>
+                    </form>
+                </div>
+
+
+        </div>
+
+
+    </div>
+</div>

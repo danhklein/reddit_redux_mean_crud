@@ -16,8 +16,8 @@ var config=require('../_config');
 
 // *** routes *** //
 var routes = require('./routes/index.js');
-var discussionRoutes = require('./routes/discussion.js')
-var userRoutes = require('./routes/users.js')
+var discussionRoutes = require('./routes/discussions.js');
+var userRoutes = require('./routes/users.js');
 
 
 // *** express instance *** //
