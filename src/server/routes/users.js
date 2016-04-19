@@ -22,64 +22,60 @@ router.post('/register', function(req, res, next) {
                 });
         }
         //create a new user
-        var user = new User(req.body);
-        user.save(function(){
+        var newUser = new User(req.body);
+        newUser.save(function(){
             //create token
-            var token = generateToken(user)
+            var token = generateToken(newUser);
             res.status(200)
                 .json({
                     status: 'success',
                     data: {
                         token: token,
-                        user: user.email
+                        user: newUser.email
                     }
                 })
         })
     })
-});
-
-router.post('/login', function(req, res, next) {
-    //ensure the user exists
-    User.findOne({email: req.body.email}, function(err, existingUser) {
-        if (err) {
-            return next(err)
-        }
-        //user already exists error
-        if (!existingUser) {
-            return res.status(401)
-                .json({
-                    status: 'fail',
-                    message: 'Email and/or Password is not correct'
-                });
-        }
-        //If email exists compare the plain text password with the hashed/salted password
-        user.comparePassword(req.body.password, function(err, match) {
-            if (err) {
-                return next(err);
-            }
-            if(!match) {
-                return res.status(401)
-                    .json({
-                        status: 'fail',
-                        message: 'Password is not correct'
-                    });
-            }
-            user = user.toObject();
-            // delete user.password;
-            var token = createToken(user);
-            res.status(200).json({
-                status: 'success',
-                data: {
-                    token: token,
-                    user: user.email
-                }
-            });
-        });
+    .catch(function (err) {
+        return next(err);
     });
 });
 
-router.get('/logout', function(req, res, next) {
-
+router.post('/login', function (req, res, next) {
+    // ensure that user exists
+    User.findOne({email: req.body.email})
+        .then(function (user) {
+            if (!user) {
+                return res.status(401).json({
+                    status: 'fail',
+                    message: 'Email does not exist'
+                });
+            } else
+                user.comparePassword(req.body.password, function (err, match) {
+                    if (err) {
+                        return next(err);
+                    }
+                    if (!match) {
+                        return res.status(401).json({
+                            status: 'fail',
+                            message: 'Password is not correct'
+                        });
+                    }
+                    user = user.toObject();
+                    // delete user.password;
+                    var token = generateToken(user);
+                    res.status(200).json({
+                        status: 'success',
+                        data: {
+                            token: token,
+                            user: user.email
+                        }
+                    });
+                });
+        })
+        .catch(function (err) {
+            return next(err);
+        });
 });
 
 //*** helpers ** //

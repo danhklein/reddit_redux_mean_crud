@@ -25,8 +25,8 @@ app.controller('addDiscussionController', ['$scope', 'discussionDataService',
         }
     }]);
 
-app.controller('editDiscussionController', ['$scope',  'discussionDataService',
-    function($scope, discussionDataService) {
+app.controller('editDiscussionController', ['$scope', '$window', 'discussionDataService',
+    function($scope, $window, discussionDataService) {
         $scope.show = false;
 
         $scope.makeEditable = function () {
@@ -60,41 +60,45 @@ app.controller('editDiscussionController', ['$scope',  'discussionDataService',
 
     }]);
 
-// app.controller('registerController', ['$scope', '$location', 'authService',
-//     function($scope, location, authService) {
-//         $scope.user = {};
-//         $scope.register = function() {
-//
-//             authService.register($scope.user)
-//                 .then(function(user) {
-//                     authService.setUserInfo(user);
-//                     $location.path('/')
-//                 })
-//                 .catch(function(err){
-//                     //check status code,
-//                     //send appropriate message
-//                     console.log(err);
-//                 });
-//         };
-//     }])
+app.controller('registerController', ['$rootScope', '$scope', '$location', 'authService',
+    function($rootScope, $scope, $location, authService) {
+        $scope.user = {};
+        $scope.register = function() {
 
-// app.controller('loginController', ['$scope', '$location', 'authService',
-//     function($scope) {
-//         $scope.user = {};
-//         $scope.login = function() {
-//             authService.login($scope.user)
-//
-//                 .then(function(user) {
-//
-//                     authService.setUserInfo(user);
-//                     $location.path('/')
-//
-//                 })
-//                 .catch(function(err){
-//                     //check status code,
-//                     //send appropriate message
-//                     console.log(err);
-//
-//                 });
-//         };
-//     }])
+            authService.register($scope.user)
+                .then(function(user) {
+                    authService.setUserInfo(user);
+                    $location.path('/');
+                    $rootScope.currentUser = authService.getUserInfo();
+                    console.log('registerController: rootscope.currentuser:', $rootScope.currentUser  )
+                })
+                .catch(function(err){
+                    //check status code,
+                    //send appropriate message
+                    console.log(err);
+                });
+        };
+    }]);
+
+app.controller('loginController', ['$rootScope', '$scope', '$location', 'authService',
+    function($rootScope, $scope, $location, authService) {
+        $scope.user = {};
+        $scope.login = function() {
+            authService.login($scope.user)
+
+                .then(function(user) {
+
+                    authService.setUserInfo(user);
+                    $location.path('/');
+                    $rootScope.currentUser = authService.getUserInfo();
+                    console.log('loginController: rootscope.currentuser:', $rootScope.currentUser  )
+
+                })
+                .catch(function(err){
+                    //check status code,
+                    //send appropriate message
+                    console.log(err);
+
+                });
+        };
+    }])
