@@ -16,7 +16,8 @@ DiscussionSchema = new Schema({
         required: true
     },
     user: {
-        type: Schema.ObjectId, ref: 'DiscussionSchema'
+        type: String,
+        required: true
     },
     comments: [{
         body: String,

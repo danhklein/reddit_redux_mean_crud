@@ -12,12 +12,13 @@ discussionDataService.getAllDiscussions()
     });
     }]);
 
-app.controller('addDiscussionController', ['$scope', 'discussionDataService',
-    function($scope, discussionDataService){
+app.controller('addDiscussionController', ['$scope', '$rootScope', '$window','discussionDataService',
+    function($scope, $rootScope, $window, discussionDataService){
 
-
+        console.log('rootScope:', $rootScope );
+        console.log('$window', $window)
         $scope.discussion = {};
-
+        // $scope.discussion.user = $rootScope.currentUser;
         $scope.addDiscussion = function() {
             console.log($scope.discussion);
             discussionDataService.addDiscussion($scope.discussion);
@@ -71,6 +72,7 @@ app.controller('registerController', ['$rootScope', '$scope', '$location', 'auth
                     $location.path('/');
                     $rootScope.currentUser = authService.getUserInfo();
                     console.log('registerController: rootscope.currentuser:', $rootScope.currentUser  )
+                    console.log('rootscope', $rootScope)
                 })
                 .catch(function(err){
                     //check status code,
@@ -87,6 +89,8 @@ app.controller('loginController', ['$rootScope', '$scope', '$location', 'authSer
             authService.login($scope.user)
 
                 .then(function(user) {
+                    console.log('rootScope:', $rootScope );
+                    console.log('$window', $window);
 
                     authService.setUserInfo(user);
                     $location.path('/');
